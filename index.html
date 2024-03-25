@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <html lang="en" content="notranslate">
+    <meta name="google" content="notranslate">
+    <script>
+        document.documentElement.setAttribute('translate', 'no');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+  <!-- Background Music -->
+  <audio autoplay loop id="bgMusic" preload="auto"> 
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+  
+  
+ 
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  box-sizing: border-box;
+  /* Set background video */
+  position: relative;
+}
+
+
+video#bgVideo {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Ensure container spans the entire width of the viewport */
+  height: 100%; /* Ensure container spans the entire height of the viewport */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.message-container {
+  text-align: center;
+  color: #ffffff; /* Text color */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+  /* background-color: rgba(0, 0, 0, 0.189);  */
+  padding: 5px; 
+  font-size: 1.7rem; /* Adjust font size */
+  border-radius: 10px; /* Rounded corners */
+  margin: 0 auto; /* Center the container horizontally */
+  margin-top: 60%;
+  margin-left: 0; /* Remove left margin */
+  margin-right: 0; /* Remove right margin */
+  max-width: 100%; /* Reduced from 80% */
+}
+
+
+
+.message-input {
+  text-align: center;
+  color: #ff0000;
+  border-radius: 10px;
+  font-size: 1rem;
+  margin-bottom: 50%;
+  margin-top: 5%;
+
+  padding: 0%;
+}
+
+input[type="text"] {
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #ff0000; /* Green border */
+  border-radius: 10px;
+  outline: none; /* Remove default outline */
+  transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+input[type="text"]:focus {
+  border-color: #45a049; /* Darker green border on focus */
+}
+
+/* Button */
+button {
+  padding: 10px 20px; /* Padding on top/bottom, left/right */
+  font-size: 1rem;
+  background-color: #ff0000; /* Green background */
+  border: none;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition-duration: 0.4s;
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+button:hover {
+  background-color: #a04554; /* Darker green background on hover */
+}
+
+
+/* Media query for devices with width less than 600px */
+@media (max-width: 600px) {
+  body, input[type="text"], button {
+    font-size: 1rem; /* Adjust font size for smaller devices */
+  }
+
+  video#bgVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.message-input {
+  text-align: center;
+  color: #ff0000;
+  border-radius: 10px;
+  font-size: 1rem;
+  margin-top: 20%;
+  margin-bottom: 50%;
+
+  padding: 0%;
+}
+.message-container {
+  text-align: center;
+  color: #ffffff; /* Text color */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+  /* background-color: rgba(0, 0, 0, 0.189);  */
+  padding: 5px; 
+  font-size: 1.7rem; /* Adjust font size */
+  border-radius: 10px; /* Rounded corners */
+  margin: 0 auto; /* Center the container horizontally */
+  margin-top: 77%;
+  margin-left:0; /* Remove left margin */
+  margin-right: 0; /* Remove right margin */
+  max-width: 100%; /* Reduced from 80% */
+}
+
+}
+
+</style>
+</head>
+<body>
+<video autoplay loop muted playsinline id="bgVideo">
+    <source src="video.mp4" type="video/mp4">
+  </video>
+  
+  
+
+<div class="container">
+  <div class="message-container">
+    <div id="message"></div>
+  </div >
+  <div class="message-input">
+    <input type="text" id="name" placeholder="अपने नाम के साथ संदेश बनाएं">
+    <button onclick="generateURL()">Share</button>
+  </div>
+</div>
+
+<script>
+  function playBackgroundMusic() {
+      const audio = document.getElementById('bgMusic');
+      audio.muted = false; // Unmute 
+      audio.play(); 
+    }
+// Get the name from the URL
+const urlParams = new URLSearchParams(window.location.search);
+const name = urlParams.get('name');
+
+// If there's a name in the URL, display the message
+if (name) {
+  document.getElementById('message').innerText = `रंगों की बौछार,
+खुशियों का त्योहार,
+होली का उमंग लेकर आए,
+आपके जीवन में खुशियों के बहार!
+
+${name} 
+की ओर से आपको और 
+आपके परिवार को होली की 
+हार्दिक शुभकामनाएं
+
+| | जय श्री कृष्ण | |`;
+}
+
+function generateURL() {
+  // Get the value from the input field
+  const name = document.getElementById('name').value;
+
+  // Generate the new URL
+  const newURL = window.location.href.split('?')[0] + '?name=' + encodeURIComponent(name);
+
+  // Share the URL
+  if (navigator.share) {
+    navigator.share({
+      title: 'Message Page',
+      url: newURL
+    }).then(() => {
+      console.log('Thanks for sharing!');
+    })
+    .catch(console.error);
+  } else {
+    // Fallback for browsers that don't support the Web Share API
+    alert(newURL);
+  }
+}
+
+function playBackgroundMusic() {
+      const audio = document.getElementById('bgMusic');
+      audio.muted = false; // Unmute 
+      audio.play(); 
+    }
+
+</script>
+
+</body>
+</html>
